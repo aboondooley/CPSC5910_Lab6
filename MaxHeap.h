@@ -107,6 +107,13 @@ public:
     int size() const {
         return data.size();
     }
+
+    void heapsort(int *data) {
+        MaxHeap<T> maxHeap(data, size());
+        for (int i = this->data.size() - 1; i >= 0; i--) {
+            data[i] = maxHeap.dequeue();
+        }
+    }
 };
 
 
