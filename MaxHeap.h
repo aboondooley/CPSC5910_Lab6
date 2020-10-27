@@ -12,37 +12,71 @@ template<typename T>
 class MaxHeap {
 private:
     std::vector<T> data;
+    static const int ROOT = 0;
 
     void percolateUp(int index) {
-        if (index > 0){
-
+        if (index > ROOT){
+            int p = parent(index);
+            if (data[index] > data[p]){
+                swap(data[index], data[p]);
+                percolateUp(p); // this is now where index is
+            }
         }
     }
 
     void percolateDown(int index) {
-
+        if (hasLeft(index)) {
+            int child = left(index);
+            if (hasRight(index)) {
+                int r = right(index);
+                if (data[r] > data[child]) {
+                    child = r;
+                }
+            }
+            if (data[child] > data[index]) {
+                swap(data[index], data[child]);
+                percolateDown(child); // this is now where index is
+            }
+        }
     }
 
-    void heapify(){
+    void heapify() {
         for (int index = data.size() / 2; index >= 0; index--){
             percolateDown(index);
         }
     }
 
-public:
-    MaxHeap(){
-        data = vector<T>(0);
+    int parent(int index) {
+        return (index - 1) / 2;
     }
+
+    int left(int index) {
+        return index * 2 + 1;
+    }
+
+    int right (int index) {
+        return index * 2 + 2;
+    }
+
+    bool hasLeft(int parent) const {
+        return left(parent) < size();
+    }
+
+    bool hasRight(int parent) const {
+        return right(parent) < size();
+    }
+
+public:
+    MaxHeap() {}
 
     /**
      * All at once constructor
      * @param initialDate
      * @param initialDataCount
      */
-    MaxHeap(const T *initialDate, int initialDataCount){
-        data = vector<T>(initialDataCount);
+    MaxHeap(const T *initialDate, int initialDataCount) {
         for (int i = 0; i < initialDataCount; i++){
-            data[i] = initialDate[i];
+            data.push_back(initialDate[i]);
         }
         heapify();
     }
@@ -51,23 +85,28 @@ public:
         if (empty()){
             throw std::invalid_argument("empty queue");
         }
-        return data[0];
+        return data[ROOT];
     }
 
-    T dequeue(){
-
+    T dequeue() {
+        int ret = peek();
+        data[ROOT] = data[data.size()];
+        percolateDown(ROOT);
+        return ret;
     }
 
-    void enqueue(T value){
+    void enqueue(T value) {
         data.push_back(value);
         percolateUp(data.size());
     }
 
-    bool empty(){
+    bool empty() const {
         return data.size() == 0;
     }
 
-
+    int size() const {
+        return data.size();
+    }
 };
 
 
