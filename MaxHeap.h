@@ -76,7 +76,7 @@ private:
      * @param index of the child
      * @return index of the parent
      */
-    int parent(int index) {
+    int parent(int index) const {
         return (index - 1) / 2;
     }
 
@@ -85,7 +85,7 @@ private:
     * @param index parent index to get left child of
     * @return index of the left child
     */
-    int left(int index) {
+    int left(int index) const {
         return index * 2 + 1;
     }
 
@@ -94,7 +94,7 @@ private:
      * @param index parent index to get right child of
      * @return index of the right child
      */
-    int right (int index) {
+    int right(int index) const {
         return index * 2 + 2;
     }
 
@@ -150,8 +150,9 @@ public:
      * the MaxHeap multiple times)
      */
     T dequeue() {
-        int ret = peek();
-        data[0] = data[data.size()];
+        T ret = peek();
+        data[0] = data[data.size() - 1];
+        data.pop_back();
         percolateDown(0);
         return ret;
     }
@@ -163,7 +164,7 @@ public:
      */
     void enqueue(T value) {
         data.push_back(value);
-        percolateUp(data.size());
+        percolateUp(data.size() - 1);
     }
 
     /**
@@ -182,7 +183,7 @@ public:
       * @param data to be sorted
       * @param size number of items in data
       */
-    static void heapsort(int *data, int size) {
+    static void heapsort(T *data, int size) {
         MaxHeap<T> maxHeap(data, size);
         for (int i = size - 1; i >= 0; i--) {
             data[i] = maxHeap.dequeue();
