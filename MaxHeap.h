@@ -4,6 +4,7 @@
 
 #ifndef LAB6_MAXHEAP_MAXHEAP_H
 #define LAB6_MAXHEAP_MAXHEAP_H
+
 #include <iostream>
 #include <vector>
 
@@ -29,9 +30,9 @@ private:
      * @param index the value ot move up
      */
     void percolateUp(int index) {
-        if (index > 0){
+        if (index > 0) {
             int p = parent(index);
-            if (data[index] > data[p]){
+            if (data[index] > data[p]) {
                 std::swap(data[index], data[p]);
                 percolateUp(p); // this is now where index is
             }
@@ -66,7 +67,7 @@ private:
      * all of its children)
      */
     void heapify() {
-        for (int index = data.size() / 2; index >= 0; index--){
+        for (int index = data.size() / 2; index >= 0; index--) {
             percolateDown(index);
         }
     }
@@ -125,7 +126,7 @@ public:
      * @param initialDataCount number of values in the array
      */
     MaxHeap(const T *initialData, int initialDataCount) {
-        for (int i = 0; i < initialDataCount; i++){
+        for (int i = 0; i < initialDataCount; i++) {
             data.push_back(initialData[i]);
         }
         heapify();
@@ -137,7 +138,7 @@ public:
      * @post the maximum value is still in the MaxHeap
      */
     const T &peek() const {
-        if (empty()){
+        if (empty()) {
             throw std::invalid_argument("empty queue");
         }
         return data[0];
