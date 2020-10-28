@@ -121,19 +121,20 @@ public:
 
     /**
      * All at once constructor
-     * @param initialDate
-     * @param initialDataCount
+     * @param initialData an array of data of type T create MaxHeap with
+     * @param initialDataCount number of values in the array
      */
-    MaxHeap(const T *initialDate, int initialDataCount) {
+    MaxHeap(const T *initialData, int initialDataCount) {
         for (int i = 0; i < initialDataCount; i++){
-            data.push_back(initialDate[i]);
+            data.push_back(initialData[i]);
         }
         heapify();
     }
 
     /**
-     *
-     * @return
+     * Gives a peek of the largest value in the MaxHeap, but does not pop off
+     * @return the maximum value in the MaxHeap
+     * @post the maximum value is still in the MaxHeap
      */
     const T &peek() const {
         if (empty()){
@@ -143,8 +144,10 @@ public:
     }
 
     /**
-     *
-     * @return
+     * Pops off and returns the maximum value
+     * @return the maximum value
+     * @post the returned value is no longer in the MaxHeap (unless it was in
+     * the MaxHeap multiple times)
      */
     T dequeue() {
         int ret = peek();
@@ -154,8 +157,9 @@ public:
     }
 
     /**
-     *
-     * @param value
+     * Adds a value to the MaxHeap
+     * @param value to add the MaxHeap
+     * #post the MaxHeap still adheres to the definition of a MaxHeap
      */
     void enqueue(T value) {
         data.push_back(value);
@@ -163,8 +167,8 @@ public:
     }
 
     /**
-     *
-     * @return
+     * Checks if the MaxHeap is empty
+     * @return true if empty, false if not
      */
     bool empty() const {
         return data.size() == 0;
@@ -172,12 +176,15 @@ public:
 
 
     /**
-     *
-     * @param data
-     */
-    void heapsort(int *data) {
-        MaxHeap<T> maxHeap(data, this->data.size());
-        for (int i = this->data.size() - 1; i >= 0; i--) {
+      * Sort the given array in place in ascending order using heapsort,
+      * O(n log n).
+      *
+      * @param data to be sorted
+      * @param size number of items in data
+      */
+    static void heapsort(int *data, int size) {
+        MaxHeap<T> maxHeap(data, size);
+        for (int i = size - 1; i >= 0; i--) {
             data[i] = maxHeap.dequeue();
         }
     }
