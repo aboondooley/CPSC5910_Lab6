@@ -1,5 +1,6 @@
 #include <iostream>
 #include "MaxHeap.h"
+
 using namespace std;
 
 /**
@@ -9,6 +10,7 @@ using namespace std;
 enum Importance {  // enum classes are like a set of integer constants
     VERY = 20, SOMEWHAT = 9, BLEH = 0, HARDLY = -3, UNIMPORTANT = -10
 };
+
 /**
  * Tests enqueue and peek - the client must know the maximum value in the
  * MaxHeap to test
@@ -37,9 +39,10 @@ void testDequeue(MaxHeap<T> &m, T max) {
 }
 
 /**
- * Tests all-at-once ctor and heapsort for int MaxHeaps
- * @param data array of ints
- * @param size of int array
+ * Tests all-at-once ctor and heapsort
+ * #paramT a numeric type
+ * @param data array of type T
+ * @param size of array
  */
 template<typename T>
 void testCtor(T *data, int size) {
@@ -51,16 +54,35 @@ void testCtor(T *data, int size) {
     cout << " (expect descending order)" << endl << endl;
 }
 
+/**
+ * Tests heapsort
+ * @tparam T a numeric type
+ * @param data array of type T
+ * @param size of array
+ */
 template<typename T>
 void testHeapsort(T *data, int size) {
     cout << "testing heapsort: " << endl;
     MaxHeap<T>::heapsort(data, size);
-    for (int i =0; i < size; i++){
+    for (int i = 0; i < size; i++) {
         cout << data[i] << " ";
     }
     cout << " (expect ascending order)" << endl << endl;
 }
 
+/**
+ * Tests the empty() method
+ * @tparam T numeric type
+ */
+template<typename T>
+void testEmpty(T *data, int size) {
+    MaxHeap<T> e;
+    cout << "test empty MaxHeap: ";
+    cout << e.empty() << " (expect 1)" << endl;
+    MaxHeap<T> f(data, size);
+    cout << "test non-empty MaxHeap: ";
+    cout << f.empty() << " (expect 0)" << endl;
+}
 
 /**
  * Main entry to test MaxHeap methods
@@ -81,6 +103,8 @@ int main() {
     testCtor(dataI, 8);
     //test heapsort
     testHeapsort(dataI, 8);
+    //test empty
+    testEmpty(dataI, 8);
     cout << endl << endl;
 
     // TEST DOUBLE
@@ -97,6 +121,8 @@ int main() {
     testCtor(dataD, 8);
     //test heapsort
     testHeapsort(dataD, 8);
+    // test empty
+    testEmpty(dataD, 8);
     cout << endl << endl;
 
     // TEST IMPORTANCE
@@ -116,8 +142,8 @@ int main() {
     testCtor(dataImp, 8);
     // test heapsort
     testHeapsort(dataImp, 8);
-
-
+    // test empty
+    testEmpty(dataImp, 8);
 
 
     return 0;
